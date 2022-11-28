@@ -31,7 +31,7 @@ changelog:
       - '^test:'
 brews:
   -
-    name: dev-script-runner
+    name: dev
     tap:
       owner: sandstorm
       name: homebrew-tap
