@@ -31,7 +31,7 @@ changelog:
       - '^test:'
 brews:
   -
-    name: dev
+    name: dev-script-runner
     tap:
       owner: sandstorm
       name: homebrew-tap
@@ -54,5 +54,4 @@ brews:
     # but rather to install both the script and the directory in some place,
     # then create a wrapper in bin/ that calls the script from that place.
     install: |
-      libexec.install Dir["*"]
-      bin.write_exec_script libexec/"dev"
+      bin.install "dev-script-runner" => "dev"
