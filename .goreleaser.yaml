@@ -55,4 +55,4 @@ brews:
     # then create a wrapper in bin/ that calls the script from that place.
     install: |
       libexec.install Dir["*"]
-      bin.write_exec_script libexec/"dev-script-runner"
+      bin.write_exec_script libexec/"dev"
