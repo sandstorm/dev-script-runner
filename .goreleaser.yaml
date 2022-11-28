@@ -6,6 +6,7 @@ before:
 builds:
   - id: "dev-script-runner"
     main: ./main.go
+    binary: dev-script-runner
     goos:
       - darwin
     goarch:
