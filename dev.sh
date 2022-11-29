@@ -15,7 +15,6 @@ function test() {
   echo "#### TEST ####"
   _log_success "SUCCESS"
   _log_warning "WARNING"
-  cat dev.sh
 }
 
 function setup() {

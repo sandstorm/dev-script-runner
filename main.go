@@ -3,18 +3,23 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"github.com/logrusorgru/aurora/v3"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 const DEV_SCRIPT_MARKER = "DEV_SCRIPT_MARKER"
 const DEV_SCRIPT_NAME = "dev.sh"
 const MAX_DEPTH = 100
 const INIT_ARGUMENT = "INIT"
+const LOGGING_PREFIX = "DSR - "
+const LOGGING_WSPACE = "      "
+const LOGGING_BAR = "-------------------------------------------------------"
 
 // Assets represents the embedded files.
 //
@@ -22,18 +27,29 @@ const INIT_ARGUMENT = "INIT"
 var Assets embed.FS
 
 func main() {
-	// TODO: remove later
-	// os.Chdir("/Users/florian/src/solarwatt-home-app-flutter/app/lib/features/counter_example")
-	os.Chdir("/Users/florian/src/go-dev-script-runner/test")
-	if os.Args[1] == INIT_ARGUMENT {
-		runInit()
+	// `os.Args[0]` will always be the path of the script
+	// `os.Args[1]` will either be INIT or a task of the dev.sh script
+	if len(os.Args) > 1 {
+		if os.Args[1] == INIT_ARGUMENT {
+			// If we called `dev INIT`
+			fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_BAR)))
+			fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_PREFIX + "Running 'dev INIT' ...")))
+			runInit()
+		} else {
+			// If we called `dev <sometask>`
+			fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_BAR)))
+			fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_PREFIX + "Running 'dev " + strings.Join(os.Args[1:], " ") + "' ...")))
+			runTask()
+		}
 	} else {
-		runTask()
+		fmt.Println(aurora.Bold("USAGE:"))
+		fmt.Println(" ", aurora.Bold("dev <sometask>"), "- to run a task of your dev.sh")
+		fmt.Println(" ", aurora.Bold("dev INIT"), "- to create a `dev.sh` in the current folder")
+		os.Exit(0)
 	}
 }
 
 func runInit() {
-	log.Println(aurora.Green("RUNNING INIT"))
 	currentDirectory, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
@@ -47,12 +63,13 @@ func runInit() {
 		if !fileExists(devSetupShTargetPath) {
 			copyAssetToPath("templates/dev_setup.sh", devSetupShTargetPath)
 		} else {
-			log.Println("dev_setup.sh is already present.")
+			fmt.Println(aurora.Yellow(LOGGING_PREFIX + "dev_setup.sh is already present!"))
 		}
 	} else {
-		log.Println("dev.sh is already present. Skipping INIT")
+		fmt.Println(aurora.Yellow(LOGGING_PREFIX + "dev.sh is already present."))
+		fmt.Println(aurora.Yellow(aurora.Bold(LOGGING_PREFIX + "Skipping INIT!")))
 	}
-
+	fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_BAR)))
 	os.Exit(0)
 }
 
@@ -66,17 +83,22 @@ func runTask() {
 	for {
 		devScriptPath := filepath.Join(currentDirectory, DEV_SCRIPT_NAME)
 		if fileExists(devScriptPath) {
-			log.Println("Found " + DEV_SCRIPT_NAME + " in path " + currentDirectory)
+			fmt.Println(aurora.Magenta(LOGGING_PREFIX + "Found " + DEV_SCRIPT_NAME + " in "))
+			fmt.Println(aurora.Magenta(LOGGING_WSPACE + currentDirectory))
 			if fileContains(devScriptPath, DEV_SCRIPT_MARKER) {
-				log.Println(DEV_SCRIPT_NAME + " contains marker " + DEV_SCRIPT_MARKER)
+				fmt.Println(aurora.Magenta(LOGGING_PREFIX + "Found marker in "))
+				fmt.Println(aurora.Magenta(LOGGING_WSPACE + currentDirectory + "/" + DEV_SCRIPT_NAME))
 				execDevScriptWithArguments(devScriptPath, os.Args[1:])
 				break
 			} else {
-				log.Println("Marker is missing in " + DEV_SCRIPT_NAME)
+				fmt.Println(aurora.Yellow(LOGGING_PREFIX + "Marker '" + DEV_SCRIPT_MARKER + "' is missing in "))
+				fmt.Println(aurora.Yellow(LOGGING_WSPACE + currentDirectory + "/" + DEV_SCRIPT_NAME))
+				fmt.Println(aurora.Yellow(aurora.Bold(LOGGING_PREFIX + "Nothing to do here :(")))
+				break
 			}
 		} else {
+			// Moving up one directory
 			currentDirectory = filepath.Dir(currentDirectory)
-			log.Println("MOVING UP:", currentDirectory)
 			steps += 1
 		}
 		if currentDirectory == "/" || steps >= MAX_DEPTH {
@@ -114,11 +136,18 @@ func copyAssetToPath(embedPath string, targetPath string) {
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
-	log.Println(targetPath + " was created.")
+	fmt.Println(aurora.Magenta(LOGGING_PREFIX + targetPath + " was created."))
 }
 
 func execDevScriptWithArguments(devScriptPath string, arguments []string) {
+	fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_PREFIX + "Executing dev script :)")))
+	fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_BAR)))
 	err := os.Chdir(filepath.Dir(devScriptPath))
+	if err != nil {
+		log.Fatalf("Failed to execute: '%s'", err.Error())
+	}
+
+	err = os.Chmod(devScriptPath, 0755)
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
@@ -129,6 +158,6 @@ func execDevScriptWithArguments(devScriptPath string, arguments []string) {
 	// Run wil wait for the process to finish
 	err = cmd.Run()
 	if err != nil {
-		log.Fatalf("Failed to execute: '%s'", err.Error())
+		log.Fatalf("Failed to run shell script: '%s'", err.Error())
 	}
 }
