@@ -43,7 +43,7 @@ func main() {
 		}
 	} else {
 		fmt.Println(aurora.Bold("USAGE:"))
-		fmt.Println(" ", aurora.Bold("dev <sometask>"), "- to run a task of your dev.sh")
+		fmt.Println(" ", aurora.Bold("dev <TASK_NAME>"), "- to run a task of your dev.sh")
 		fmt.Println(" ", aurora.Bold("dev INIT"), "- to create a `dev.sh` in the current folder")
 		os.Exit(0)
 	}

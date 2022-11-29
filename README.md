@@ -11,16 +11,17 @@ In all of our projects we have recurring tasks that require us running multiple 
 * run test
 * ...
 
-These commands need to be documented somewhere. So why not have them documented in a Makefile
-that you can use to also execute them without the need of copying and pasting.
+These commands need to be documented somewhere. So why not have them documented in a shell script.
+This way you can run them without the need of copy and pasting them.
 
-We tried Makefiles, but they are complicated to use because of their syntax. We now use shell scripts
-because this is basically the code copied from the README.md ;)
+We tried Makefiles, but they are complicated to use because of their syntax. It is also not possible
+to copy commands from the Makefile and run them in the shell.
 
-Always changing back to the directory with the dev script to run a task however is rather annoying.
-This helper allows running tasks from inside a nested folder structure ;)
+**Always changing back to the directory containing the dev script to run a task is annoying.
+This helper allows running tasks from inside a nested folder structure ;)**
 
-On the way up, the first `dev.sh` that is marked with `DEV_SCRIPT_MARKER` is used.
+On the way up, the first `dev.sh` marked with a comment containing `DEV_SCRIPT_MARKER` is used to
+execute a task.
 
 We want the API to be the same when running the `dev.sh` script directly or by using the helper.
 This is why we decided to NOT introduce a `run` argument for this helper.
@@ -33,17 +34,18 @@ When thinking about ...
 
 `./dev.sh sometask` & `dev sometask` **is the clear winner ;)**
 
-Some functionality will only be provided by the helper, e.g. having some kind of initialization of your project.
-As we do not want to confuse this with running a task, we use UPPERCASE arguments for the API.
+Some functionality will only be provided by the helper, e.g. running an init. 
+As we do not want to confuse this additional functionality with running a task, we use UPPERCASE arguments for the API.
 
-Example: `dev INIT` to create the files needed in your project, like the `dev.sh`
+Example: `dev INIT` to create the files needed in your project.
 
 ## Setup
 
-TODO: install with brew
+run `brew install sandstorm/tap/dev-script-runner` to install
+run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
-Go to your project root and run `dev INIT`to create a `dev.js` with examples for different types of tasks
-The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `./dev.sh sometask` calls `sometask`).
+Go to your project root and run `dev INIT`to create a `dev.js` with examples for different types of tasks.
+The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `dev sometask` calls `sometask`).
 
 The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in the file. 
 
@@ -52,8 +54,5 @@ The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in 
 `dev <TASK_NAME>` to run a task
 `dev INIT` to create the files needed in your project
 
-## TODO
-
-* install and setup via brew
-* add command to add tasks and their comments as documentation to the README.md
-* autocompletion -> maybe rewrite in go
+## TODOs
+* Autocompletion for tasks
