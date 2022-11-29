@@ -42,6 +42,7 @@ Example: `dev INIT` to create the files needed in your project.
 ## Setup
 
 run `brew install sandstorm/tap/dev-script-runner` to install
+
 run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
 Go to your project root and run `dev INIT`to create a `dev.js` with examples for different types of tasks.
@@ -52,6 +53,7 @@ The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in 
 ## Usage
 
 `dev <TASK_NAME>` to run a task
+
 `dev INIT` to create the files needed in your project
 
 ## TODOs
