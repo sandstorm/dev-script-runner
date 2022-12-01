@@ -23,21 +23,19 @@ This helper allows running tasks from inside a nested folder structure ;)**
 On the way up, the first `dev.sh` marked with a comment containing `DEV_SCRIPT_MARKER` is used to
 execute a task.
 
-We want the API to be the same when running the `dev.sh` script directly or by using the helper.
+We want the API of the helper to be the same as running the `dev.sh` script directly.
 This is why we decided to NOT introduce a `run` argument for this helper.
 
-When thinking about ...
+This is how we ended up with the following API to run your tasks.
 
-`./dev.sh sometask` & `dev run sometask` vs.
-
-`./dev.sh sometask` & `dev sometask` then
-
-`./dev.sh sometask` & `dev sometask` **is the clear winner ;)**
+`./dev.sh sometask` or `dev sometask`
 
 Some functionality will only be provided by the helper, e.g. running an init. 
-As we do not want to confuse this additional functionality with running a task, we use UPPERCASE arguments for the API.
+As we do not want to confuse this additional functionality with running a task, we use UPPERCASE arguments for the helper API.
 
 Example: `dev INIT` to create the files needed in your project.
+
+**You should not use UPPERCASE tasks in your `dev.sh`!**
 
 ## Setup
 
@@ -45,16 +43,18 @@ run `brew install sandstorm/tap/dev-script-runner` to install
 
 run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
-Go to your project root and run `dev INIT`to create a `dev.js` with examples for different types of tasks.
+Go to your project root and run `dev INIT` to create a `dev.sh` and a `dev_setup.sh` with examples for different types of tasks.
 The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `dev sometask` calls `sometask`).
 
 The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in the file. 
 
 ## Usage
 
-`dev <TASK_NAME>` to run a task
+`dev <TASK_NAME> [ARGUMENTS]` to run a task
 
 `dev INIT` to create the files needed in your project
 
 ## TODOs
+
 * Autocompletion for tasks
+* Testing
