@@ -17,7 +17,7 @@ const DEV_SCRIPT_MARKER = "DEV_SCRIPT_MARKER"
 const DEV_SCRIPT_NAME = "dev.sh"
 const MAX_DEPTH = 100
 const INIT_ARGUMENT = "INIT"
-const LOGGING_PREFIX = "DSR - "
+const LOGGING_PREFIX = "DSR - " // DevScriptRunner
 const LOGGING_WSPACE = "      "
 const LOGGING_BAR = "-------------------------------------------------------"
 
@@ -42,9 +42,11 @@ func main() {
 			runTask()
 		}
 	} else {
+		// Show usage
 		fmt.Println(aurora.Bold("USAGE:"))
 		fmt.Println(" ", aurora.Bold("dev <TASK_NAME>"), "- to run a task of your dev.sh")
 		fmt.Println(" ", aurora.Bold("dev INIT"), "- to create a `dev.sh` in the current folder")
+		// Explicitly show that we exit here
 		os.Exit(0)
 	}
 }
@@ -59,8 +61,11 @@ func runInit() {
 	devSetupShTargetPath := filepath.Join(currentDirectory, "dev_setup.sh")
 
 	if !fileExists(devShTargetPath) {
+		// we can access embedded assets by using the path use din the annotation
 		copyAssetToPath("templates/dev.sh", devShTargetPath)
 		if !fileExists(devSetupShTargetPath) {
+			// We do not want to add dev_setup.sh if INIT was already run.
+			// The file might have been deleted on purpose.
 			copyAssetToPath("templates/dev_setup.sh", devSetupShTargetPath)
 		} else {
 			fmt.Println(aurora.Yellow(LOGGING_PREFIX + "dev_setup.sh is already present!"))
@@ -93,17 +98,19 @@ func runTask() {
 			} else {
 				fmt.Println(aurora.Yellow(LOGGING_PREFIX + "Marker '" + DEV_SCRIPT_MARKER + "' is missing in "))
 				fmt.Println(aurora.Yellow(LOGGING_WSPACE + currentDirectory + "/" + DEV_SCRIPT_NAME))
-				fmt.Println(aurora.Yellow(aurora.Bold(LOGGING_PREFIX + "Nothing to do here :(")))
-				break
+				fmt.Println(aurora.Yellow(LOGGING_WSPACE + "Moving up, looking for " + DEV_SCRIPT_NAME))
+				// Not breaking here as we want to move up
 			}
-		} else {
-			// Moving up one directory
-			currentDirectory = filepath.Dir(currentDirectory)
-			steps += 1
 		}
 		if currentDirectory == "/" || steps >= MAX_DEPTH {
+			fmt.Println(aurora.Yellow(aurora.Bold(LOGGING_PREFIX + "No " + DEV_SCRIPT_NAME + " with " + DEV_SCRIPT_MARKER + " found")))
+			fmt.Println(aurora.Yellow(aurora.Bold(LOGGING_WSPACE + "Nothing to do here :(")))
+			fmt.Println(aurora.Magenta(aurora.Bold(LOGGING_BAR)))
 			break
 		}
+		// Moving up one directory
+		currentDirectory = filepath.Dir(currentDirectory)
+		steps += 1
 	}
 }
 
@@ -120,11 +127,11 @@ func fileContains(filePath string, needle string) bool {
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
-	isContained, err := regexp.Match(needle, b)
+	markerIsPresent, err := regexp.Match(needle, b)
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
-	return isContained
+	return markerIsPresent
 }
 
 func copyAssetToPath(embedPath string, targetPath string) {
@@ -132,6 +139,7 @@ func copyAssetToPath(embedPath string, targetPath string) {
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
+	// Shell scripts need to be executable -> 0755
 	err = os.WriteFile(targetPath, []byte(data), 0755)
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
@@ -146,7 +154,7 @@ func execDevScriptWithArguments(devScriptPath string, arguments []string) {
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
-
+	// In case the script is not executable
 	err = os.Chmod(devScriptPath, 0755)
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
@@ -155,9 +163,10 @@ func execDevScriptWithArguments(devScriptPath string, arguments []string) {
 	cmd := exec.Command(devScriptPath, arguments...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	// Run wil wait for the process to finish
+	// Run will wait for the process to finish
 	err = cmd.Run()
 	if err != nil {
 		log.Fatalf("Failed to run shell script: '%s'", err.Error())
 	}
+	// IMPORTANT: no exit here as we do not want to kill the spanned child process!
 }
