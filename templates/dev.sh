@@ -4,7 +4,8 @@
 #                                                                             #
 # You can run your tasks using the script `./dev some-task`.                  #
 # You can install the Sandstorm Dev Script Runner and run your tasks from any #
-# nested folder using `dev run some-task`.                                    #
+# nested folder using `dev some-task`.                                        #
+# https://github.com/sandstorm/Sandstorm.DevScriptRunner                      #
 ###############################################################################
 
 set -e
