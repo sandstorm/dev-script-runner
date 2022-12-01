@@ -12,21 +12,30 @@ set -e
 ######### TASKS #########
 
 function setup() {
-  # As the setup typically is more complex we recommend using a separate
-  # file `dev_setup.sh`
+  # As the setup typically is more complex we recommend using a separate shell script
   ./dev_setup.sh
 }
 
 function sometask() {
-    # Most task will only require some steps. We recommend implementing them here
-    _log_success "First Step of some task"
-    _log_warning "TODO: implement more steps"
+  # Most task will only require some steps. We recommend implementing them here
+  _log_success "Some task"
+  _log_warning "TODO: implement more steps"
+}
+
+function taskwitharguments() {
+  # You can access arguments using $@ array. The task name will not be part of the array
+  _log_success "Task with arguments"
+  _log_warning "TODO: implement more steps"
+  _log_success "Arguments"
+  _log_success '  $0: '"$0"
+  _log_success '  $1: '"$1"
+  _log_success '  $2: '"$2"
 }
 
 ####### Utilities #######
 
 _log_success() {
-  printf "\033[0;32m${1}\033[0m\n"
+  printf "\033[0;32m%s\033[0m\n" "${1}"
 }
 _log_warning() {
   printf "\033[1;33m%s\033[0m\n" "${1}"
