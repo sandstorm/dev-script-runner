@@ -15,18 +15,16 @@ function test() {
   echo "#### TEST ####"
   _log_success "SUCCESS"
   _log_warning "WARNING"
+  _log_success "Arguments"
+  _log_success '  $0: '"$0"
+  _log_success '  $1: '"$1"
+  _log_success '  $2: '"$2"
 }
 
 function setup() {
   # As the setup typically is more complex we recommend using a separate
   # file `dev_setup.sh`
   ./dev_setup.sh
-}
-
-function sometask() {
-    # Most task will only require some steps. We recommend implementing them here
-    _log_success "First Step of some task"
-    _log_warning "TODO: implement more steps"
 }
 
 ####### Utilities #######
