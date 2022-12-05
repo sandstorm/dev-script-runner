@@ -7,10 +7,10 @@ import (
 	"github.com/logrusorgru/aurora/v3"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"syscall"
 )
 
 const DEV_SCRIPT_MARKER = "DEV_SCRIPT_MARKER"
@@ -160,13 +160,14 @@ func execDevScriptWithArguments(devScriptPath string, arguments []string) {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
 	}
 
-	cmd := exec.Command(devScriptPath, arguments...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	// Run will wait for the process to finish
-	err = cmd.Run()
+	// We tried using exec.Command(devScriptPath, arguments...) which failed for interactive
+	// terminal calls, e.g. `docker compose exec neos /bin/bash` This is running our command
+	// as a child process. We are now replacing the process of this helper with the call of
+	// the `dev.sh` using `syscall.Exec()`
+	err = syscall.Exec(devScriptPath, append([]string{devScriptPath}, arguments...), os.Environ())
 	if err != nil {
 		log.Fatalf("Failed to run shell script: '%s'", err.Error())
 	}
-	// IMPORTANT: no exit here as we do not want to kill the spanned child process!
+	// IMPORTANT: As we are replacing the process of the helper nothing else will be
+	// called, except the error handler!
 }
