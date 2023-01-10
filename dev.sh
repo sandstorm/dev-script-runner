@@ -11,6 +11,28 @@ set -e
 
 ######### TASKS #########
 
+function foo_bar() {
+  echo "#### TEST ####"
+}
+
+function foo-foo(){
+  echo "#### TEST ####"
+}
+
+function foo3 () {
+  echo "#### TEST ####"
+}
+
+function foo1() {
+  echo "#### TEST ####"
+  _log_success "SUCCESS"
+  _log_warning "WARNING"
+  _log_success "Arguments"
+  _log_success '  $0: '"$0"
+  _log_success '  $1: '"$1"
+  _log_success '  $2: '"$2"
+}
+
 function test() {
   echo "#### TEST ####"
   _log_success "SUCCESS"
@@ -42,3 +64,4 @@ _log_error() {
 # THIS NEEDS TO BE LAST!!!
 # this will run your tasks
 "$@"
+
