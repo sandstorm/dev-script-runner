@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/logrusorgru/aurora/v3"
 	"log"
+	"main/cmd"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -27,7 +28,17 @@ const LOGGING_BAR = "-------------------------------------------------------"
 //go:embed templates/dev.sh templates/dev_setup.sh
 var Assets embed.FS
 
+// set by goreleaser; see https://goreleaser.com/environment/
+var (
+	version = "dev"
+	commit  = "none"
+)
+
 func main() {
+	cmd.Execute(version, commit)
+}
+
+func main2() {
 	// `os.Args[0]` will always be the path of the script
 	// `os.Args[1]` will either be INIT or a name of the dev.sh script
 	if len(os.Args) > 1 {

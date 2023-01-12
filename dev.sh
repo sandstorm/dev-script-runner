@@ -11,6 +11,7 @@ set -e
 
 ######### TASKS #########
 
+# Some Docs
 function foo_bar() {
   echo "#### TEST ####"
 }
@@ -33,14 +34,13 @@ function foo1() {
   _log_success '  $2: '"$2"
 }
 
+# Some Docs
 function test() {
   echo "#### TEST ####"
   _log_success "SUCCESS"
   _log_warning "WARNING"
   _log_success "Arguments"
-  _log_success '  $0: '"$0"
-  _log_success '  $1: '"$1"
-  _log_success '  $2: '"$2"
+  echo "$@"
 }
 
 function setup() {
