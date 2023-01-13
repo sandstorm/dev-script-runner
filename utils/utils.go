@@ -13,7 +13,7 @@ import (
 const DEV_SCRIPT_MARKER = "DEV_SCRIPT_MARKER"
 const DEV_SCRIPT_NAME = "dev.sh"
 const MAX_DEPTH = 100
-const SECTION_SEPARATOR = "--------------------------------------------------------------------------"
+const SECTION_SEPARATOR = "---------------------------------------------------------------------------------------------"
 
 // Assets represents the embedded files.
 //
@@ -71,10 +71,25 @@ func ParseDevScriptTasks(devScriptPath string) []DevScriptTask {
 	var results = []DevScriptTask{}
 	for _, match := range matches {
 		task := match[taskIndex]
-		comments := match[commentsIndex]
+		comments := processComments(match[commentsIndex])
+
 		if !strings.HasPrefix(task, "_") {
-			results = append(results, DevScriptTask{Name: task, Comments: comments})
+			results = append(results, DevScriptTask{
+				Usage: task,
+				Short: extractShortFromComments(comments),
+				Long:  comments,
+			})
 		}
 	}
 	return results
+}
+
+func processComments(comments string) string {
+	reqex := regexp.MustCompile(`(?m)(^#(\s)?)`)
+	return reqex.ReplaceAllString(comments, "")
+}
+
+func extractShortFromComments(comments string) string {
+	reqex := regexp.MustCompile(`^.*`)
+	return reqex.FindString(comments)
 }

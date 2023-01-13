@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"log"
 	"main/utils"
@@ -24,12 +25,14 @@ and other nifty feature ;)
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(version, commit string) {
+	// IMPORTANT: the order of tasks should resemble the order in the dev.sh
 	cobra.EnableCommandSorting = false
-	RootCmd.AddCommand(buildSectionCommand("tasks"))
+	RootCmd.AddCommand(buildSectionCommand("your tasks"))
 	addDevScriptTasksAsCommands(RootCmd)
 	RootCmd.AddCommand(buildSectionCommand("utils"))
 	RootCmd.AddCommand(buildInitCommand())
 	// RootCmd.AddCommand(buildCompletionCommand())
+	RootCmd.AddCommand(buildSectionCommand("other"))
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -52,7 +55,10 @@ func addDevScriptTasksAsCommands(rootCmd *cobra.Command) {
 		if utils.FileExists(devScriptPath) {
 			if utils.FileContains(devScriptPath, utils.DEV_SCRIPT_MARKER) {
 				tasks := utils.ParseDevScriptTasks(devScriptPath)
-				rootCmd.Long = rootCmd.Long + "\nDEV SCRIPT WITH " + strconv.Itoa(len(tasks)) + " TASKS FOUND AT:\n  " + devScriptPath
+				rootCmd.Long = rootCmd.Long + color.Magenta.Text("\nDEV SCRIPT WITH ")
+				rootCmd.Long = rootCmd.Long + color.Bold.Text(strconv.Itoa(len(tasks)))
+				rootCmd.Long = rootCmd.Long + color.Magenta.Text(" TASKS FOUND AT:\n  ")
+				rootCmd.Long = rootCmd.Long + color.Magenta.Text(devScriptPath)
 				if len(tasks) > 0 {
 					for _, task := range tasks {
 						rootCmd.AddCommand(buildTaskCommand(task, devScriptPath))

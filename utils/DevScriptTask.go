@@ -1,6 +1,7 @@
 package utils
 
 type DevScriptTask struct {
-	Name     string
-	Comments string
+	Usage string
+	Short string
+	Long  string
 }

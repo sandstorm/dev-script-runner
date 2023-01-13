@@ -1,13 +1,14 @@
 package cmd
 
 import (
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
 
 // This is a hack add a hint to cobra rendering
 func buildNoTaskCommand(reason string) *cobra.Command {
 	return &cobra.Command{
-		Short:                 "\n  " + reason + "\n",
+		Short:                 color.Magenta.Text("\n  " + reason + "\n"),
 		DisableFlagParsing:    true,
 		DisableAutoGenTag:     true,
 		DisableFlagsInUseLine: true,

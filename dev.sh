@@ -11,10 +11,12 @@ set -e
 
 ######### TASKS #########
 
+# runs foo
 function foo() {
   echo "test"
 }
 
+# use main aus binary
 function switch-dev-binary() {
     echo "-----------> creating build"
     build
@@ -27,6 +29,7 @@ function switch-dev-binary() {
     mv ./main /usr/local/bin/dev || true
 }
 
+# restores original dev binary
 function restore-dev-binary() {
   if test -f "/usr/local/bin/dev_back"; then
       echo "/usr/local/bin/dev_back exists."

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"main/utils"
 )
@@ -15,7 +16,7 @@ func buildSectionTitle(title string) string {
 
 func buildSectionCommand(title string) *cobra.Command {
 	return &cobra.Command{
-		Short:                 buildSectionTitle(title),
+		Short:                 color.Gray.Text(buildSectionTitle(title)),
 		DisableFlagParsing:    true,
 		DisableAutoGenTag:     true,
 		DisableFlagsInUseLine: true,
