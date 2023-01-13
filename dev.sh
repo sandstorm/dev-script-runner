@@ -11,36 +11,35 @@ set -e
 
 ######### TASKS #########
 
-# Some Docs
-function foo_bar() {
-  echo "#### TEST ####"
+function foo() {
+  echo "test"
 }
 
-function foo-foo(){
-  echo "#### TEST ####"
+function switch-dev-binary() {
+    echo "-----------> creating build"
+    build
+    echo "-----------> replacing binary"
+    if test -f "/usr/local/bin/dev_back"; then
+      rm -f /usr/local/bin/dev || true
+    else
+      mv /usr/local/bin/dev /usr/local/bin/dev_back || true
+    fi
+    mv ./main /usr/local/bin/dev || true
 }
 
-function foo3 () {
-  echo "#### TEST ####"
+function restore-dev-binary() {
+  if test -f "/usr/local/bin/dev_back"; then
+      echo "/usr/local/bin/dev_back exists."
+      echo "restoring /usr/local/bin/dev "
+      rm -f /usr/local/bin/dev || true
+      mv /usr/local/bin/dev_back /usr/local/bin/dev || true
+    else
+      echo "no /usr/local/bin/dev_back found. Nothing to restore!"
+  fi
 }
 
-function foo1() {
-  echo "#### TEST ####"
-  _log_success "SUCCESS"
-  _log_warning "WARNING"
-  _log_success "Arguments"
-  _log_success '  $0: '"$0"
-  _log_success '  $1: '"$1"
-  _log_success '  $2: '"$2"
-}
-
-# Some Docs
-function test() {
-  echo "#### TEST ####"
-  _log_success "SUCCESS"
-  _log_warning "WARNING"
-  _log_success "Arguments"
-  echo "$@"
+function build() {
+  go build main
 }
 
 function setup() {
@@ -64,4 +63,3 @@ _log_error() {
 # THIS NEEDS TO BE LAST!!!
 # this will run your tasks
 "$@"
-

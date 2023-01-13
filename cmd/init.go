@@ -3,18 +3,42 @@ package cmd
 import (
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"log"
+	"main/utils"
+	"os"
+	"path/filepath"
 )
 
 func buildInitCommand() *cobra.Command {
-	var execRootCmd = &cobra.Command{
-		Use:   "INIT",
-		Short: "TODO",
-		Long:  color.Sprintf(`Usage:	TODO`),
-		Args:  cobra.RangeArgs(1, 2),
+	return &cobra.Command{
+		Use:   "DSR_INIT",
+		Short: "creates dev.sh and dev_setup.sh in current folder",
+		Long:  color.Sprintf(`This creates an example create a dev.sh and dev_setup.sh in your current directory.`),
+		Args:  cobra.NoArgs,
 
 		Run: func(cmd *cobra.Command, args []string) {
-			color.Sprintf(`RUN COMMAND`)
+			currentDirectory, err := os.Getwd()
+			if err != nil {
+				log.Fatalf("Failed to execute: '%s'", err.Error())
+			}
+			devShTargetPath := filepath.Join(currentDirectory, "dev.sh")
+			devSetupShTargetPath := filepath.Join(currentDirectory, "dev_setup.sh")
+
+			if !utils.FileExists(devShTargetPath) {
+				// we can access embedded assets by using the path use din the annotation
+				utils.CopyAssetToPath("templates/dev.sh", devShTargetPath)
+				if !utils.FileExists(devSetupShTargetPath) {
+					// We do not want to add dev_setup.sh if INIT was already run.
+					// The file might have been deleted on purpose.
+					utils.CopyAssetToPath("templates/dev_setup.sh", devSetupShTargetPath)
+				} else {
+					color.Yellow.Println("dev_setup.sh is already present!")
+				}
+			} else {
+				color.Yellow.Println("dev.sh is already present.")
+				color.Style{color.Yellow, color.Bold}.Println("Skipping INIT!")
+			}
+			os.Exit(0)
 		},
 	}
-	return execRootCmd
 }

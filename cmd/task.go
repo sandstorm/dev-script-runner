@@ -3,19 +3,20 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"log"
+	"main/utils"
 	"os"
 	"path/filepath"
 	"syscall"
 )
 
-func buildTaskCommand(task DevScriptTask, devScriptPath string) *cobra.Command {
+func buildTaskCommand(task utils.DevScriptTask, devScriptPath string) *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:   task.name,
-		Short: task.comments,
-		Long:  task.comments,
+		Use:   task.Name,
+		Short: task.Comments,
+		Long:  task.Comments,
 		Args:  cobra.ArbitraryArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			execDevScriptWithArguments(devScriptPath, append([]string{task.name}, args...))
+			execDevScriptWithArguments(devScriptPath, append([]string{task.Name}, args...))
 		},
 	}
 	return cmd
