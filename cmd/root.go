@@ -31,16 +31,19 @@ func Execute(version, commit string) {
 	// This was initially needed because we DisableFlagParsing for the tasks.
 	// Now we still DisableFlagParsing but also evaluate the args. If -h or --help
 	// is the only arg we show the help of the command
-
 	// IMPORTANT: the order of tasks should resemble the order in the dev.sh
 	cobra.EnableCommandSorting = false
-	RootCmd.AddCommand(buildSectionCommand("your tasks"))
+	RootCmd.AddGroup(&cobra.Group{
+		ID:    utils.GROUP_ID_TASKS,
+		Title: "Your Tasks",
+	})
+	RootCmd.AddGroup(&cobra.Group{
+		ID:    utils.GROUP_ID_UTILS,
+		Title: "Utils",
+	})
 	addDevScriptTasksAsCommands(RootCmd)
-	RootCmd.AddCommand(buildSectionCommand("utils"))
 	RootCmd.AddCommand(buildInitCommand())
 	// TODO: fix autocompletion
-	// RootCmd.AddCommand(buildCompletionCommand())
-	RootCmd.AddCommand(buildSectionCommand("other"))
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

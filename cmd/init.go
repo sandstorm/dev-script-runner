@@ -10,12 +10,13 @@ import (
 )
 
 func buildInitCommand() *cobra.Command {
-	return &cobra.Command{
+	var cmd = &cobra.Command{
 		// IMPORTANT: never color Use! You will not be able to run the command otherwise.
-		Use:   "DSR_INIT",
-		Short: color.Gray.Text("creates dev.sh and dev_setup.sh in current folder"),
-		Long:  color.Sprintf(`This creates an example create a dev.sh and dev_setup.sh in your current directory.`),
-		Args:  cobra.NoArgs,
+		Use:     "DSR_INIT",
+		Short:   "creates dev.sh and dev_setup.sh in current folder",
+		Long:    "This creates an example create a dev.sh and dev_setup.sh in your current directory.",
+		Args:    cobra.NoArgs,
+		GroupID: utils.GROUP_ID_UTILS,
 
 		Run: func(cmd *cobra.Command, args []string) {
 			currentDirectory, err := os.Getwd()
@@ -42,4 +43,5 @@ func buildInitCommand() *cobra.Command {
 			os.Exit(0)
 		},
 	}
+	return cmd
 }
