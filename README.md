@@ -42,7 +42,7 @@ run `brew install sandstorm/tap/dev-script-runner` to install
 
 run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
-run `dev completion zsh > $(brew --prefix)/share/zsh/site-functions/_dev` to enable autocompletion
+run `dev completion [bash|zsh|fish|powershell] --help` and follow instructions on how to setup autocompletion
 
 Go to your project root and run `dev DSR_INIT` to create a `dev.sh` and a `dev_setup.sh` with examples for different types of tasks.
 The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `dev sometask` calls `sometask`).
@@ -75,6 +75,5 @@ run `dev` for more information.
 
 ## TODOs
 
-* Autocompletion for tasks
 * Testing
 * more features for documenting tasks -> e.g. support examples, params, ...
