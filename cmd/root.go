@@ -18,8 +18,8 @@ DevScriptRunner is a helper to run task from a dev.sh file
 from within a nested folder structure also providing autocompletion
 and other nifty feature ;)
 `,
-	Short:   "SHORT",
-	Example: "",
+	Short:   "run a task of your dev.sh",
+	Example: "run setup",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -31,6 +31,7 @@ func Execute(version, commit string) {
 	addDevScriptTasksAsCommands(RootCmd)
 	RootCmd.AddCommand(buildSectionCommand("utils"))
 	RootCmd.AddCommand(buildInitCommand())
+	// TODO: fix autocompletion
 	// RootCmd.AddCommand(buildCompletionCommand())
 	RootCmd.AddCommand(buildSectionCommand("other"))
 	if err := RootCmd.Execute(); err != nil {

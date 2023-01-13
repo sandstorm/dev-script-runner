@@ -12,15 +12,15 @@ set -e
 
 ######### TASKS #########
 
-# easy setup of the project
+# Easy setup of the project
 function setup() {
   # As the setup typically is more complex we recommend using a separate shell script
   ./dev_setup.sh
 }
 
-# sometask to help with something
+# Sometask to help with something
 #
-# The first line of the comment will we used in the task overview.
+# The first line of the comment block will be used in the task overview.
 # If you want to provide more details just add more lines ;)
 function sometask() {
   # Most task will only require some steps. We recommend implementing them here
@@ -28,9 +28,9 @@ function sometask() {
   _log_warning "TODO: implement more steps"
 }
 
-# another task to help with something else
+# Another task to help with something else
 #
-# The first line of the comment will we used in the task overview.
+# The first line of the comment block will be used in the task overview.
 # If you want to provide more details just add more lines ;)
 function taskwitharguments() {
   # You can access arguments using $@ array. The task name will not be part of the array
