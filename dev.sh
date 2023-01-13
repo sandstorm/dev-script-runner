@@ -11,12 +11,7 @@ set -e
 
 ######### TASKS #########
 
-# runs foo
-function foo() {
-  echo "test"
-}
-
-# use main aus binary
+# exposes ./main binary globally
 function switch-dev-binary() {
     echo "-----------> creating build"
     build
@@ -40,11 +35,12 @@ function restore-dev-binary() {
       echo "no /usr/local/bin/dev_back found. Nothing to restore!"
   fi
 }
-
+# build
 function build() {
   go build main
 }
 
+# install dev dependencies
 function setup() {
   # As the setup typically is more complex we recommend using a separate
   # file `dev_setup.sh`

@@ -25,6 +25,13 @@ and other nifty feature ;)
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(version, commit string) {
+	// The following lines remove -h and --help flags form the usages
+	//   RootCmd.InitDefaultHelpFlag()
+	//   RootCmd.Flags().MarkHidden("help")
+	// This was initially needed because we DisableFlagParsing for the tasks.
+	// Now we still DisableFlagParsing but also evaluate the args. If -h or --help
+	// is the only arg we show the help of the command
+
 	// IMPORTANT: the order of tasks should resemble the order in the dev.sh
 	cobra.EnableCommandSorting = false
 	RootCmd.AddCommand(buildSectionCommand("your tasks"))

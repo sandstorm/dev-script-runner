@@ -7,6 +7,7 @@ import (
 	"main/utils"
 	"os"
 	"path/filepath"
+	"strings"
 	"syscall"
 )
 
@@ -17,8 +18,23 @@ func buildTaskCommand(task utils.DevScriptTask, devScriptPath string) *cobra.Com
 		Short: color.Gray.Text(task.Short),
 		Long:  task.Long,
 		Args:  cobra.ArbitraryArgs,
+		// If this is true all flags will be passed to the command as arguments.
+		DisableFlagParsing: true,
+		// Will disable the addition of [flags] to the usage
+		// As we currently do not parse comments with a specific syntax to provide
+		// useful information. The only flags we support are -h and --help they
+		// are always part of the usage template.
+		DisableFlagsInUseLine: true,
 		Run: func(cmd *cobra.Command, args []string) {
-			execDevScriptWithArguments(devScriptPath, append([]string{task.Usage}, args...))
+			// We DisableFlagParsing but we still want to use the -h and --help flag.
+			// This is why we evaluate the args manually and show the help of the
+			// command if needed.
+			argsAsString := strings.Join(args, " ")
+			if argsAsString == "--help" || argsAsString == "-h" {
+				cmd.Help()
+			} else {
+				execDevScriptWithArguments(devScriptPath, append([]string{task.Usage}, args...))
+			}
 		},
 	}
 	return cmd
