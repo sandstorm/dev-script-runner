@@ -49,13 +49,13 @@ func TestParseDevScriptTasks_TaskCommentsShouldBeParsed(t *testing.T) {
 			Usage: "one-line-comment-block",
 			Short: "one line comment block - 1",
 			// TODO: fix trailing \n
-			Long: "one line comment block - 1\n",
+			Long: "one line comment block - 1",
 		},
 		{
 			Usage: "multiline-comment-block",
 			Short: "multiline comment block - 1",
 			// TODO: fix trailing \n
-			Long: "multiline comment block - 1\nmultiline comment block - 2\nmultiline comment block - 3\n",
+			Long: "multiline comment block - 1\nmultiline comment block - 2\nmultiline comment block - 3",
 		},
 		{
 			Usage: "empty-lines-in-comment-block",

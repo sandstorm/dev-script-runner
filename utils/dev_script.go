@@ -9,8 +9,7 @@ import (
 )
 
 func ParseDevScriptTasks(devScriptPath string) []DevScriptTask {
-	// https://regex101.com/r/5LVRcP/1 -> Iteration 1 without comments before
-	// https://regex101.com/r/XyB410/1 -> Final Iteration with comments before ;)
+	// https://regex101.com/r/ZFB8ml/1
 	devScriptBytes, err := os.ReadFile(devScriptPath)
 	if err != nil {
 		log.Fatalf("Failed to execute: '%s'", err.Error())
@@ -39,8 +38,10 @@ func ParseDevScriptTasks(devScriptPath string) []DevScriptTask {
 	return results
 }
 
+// https://regex101.com/r/Jo4uSX/1
+// `|\n$` matches new line and end of string
 func processComments(comments string) string {
-	reqex := regexp.MustCompile(`(?m)(^#(\s)?)`)
+	reqex := regexp.MustCompile(`(?m)^# ?|\n$`)
 	return reqex.ReplaceAllString(comments, "")
 }
 

@@ -12,6 +12,7 @@ set -e
 ######### TASKS #########
 
 # exposes ./main binary globally
+# we rename the original file and copy a fresh build to `/usr/local/bin/`
 function switch-dev-binary() {
     echo "-----------> creating build"
     build
@@ -25,6 +26,9 @@ function switch-dev-binary() {
 }
 
 # restores original dev binary
+#
+# we check if the dev binary was backed up and replace the current dev with
+# this backup ;)
 function restore-dev-binary() {
   if test -f "/usr/local/bin/dev_back"; then
       echo "/usr/local/bin/dev_back exists."
