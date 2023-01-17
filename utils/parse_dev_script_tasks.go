@@ -25,13 +25,13 @@ func ParseDevScriptTasks(devScriptPath string) []DevScriptTask {
 	var results = []DevScriptTask{}
 	for _, match := range matches {
 		task := match[taskIndex]
-		comments := processComments(match[commentsIndex])
+		comments := prepareComments(match[commentsIndex])
 
 		if !strings.HasPrefix(task, "_") {
 			results = append(results, DevScriptTask{
-				Usage: task,
-				Short: extractShortFromComments(comments),
-				Long:  comments,
+				Name:        task,
+				Title:       taskTitleFromComments(comments),
+				Description: taskDescriptionFromComments(comments),
 			})
 		}
 	}
@@ -40,12 +40,7 @@ func ParseDevScriptTasks(devScriptPath string) []DevScriptTask {
 
 // https://regex101.com/r/Jo4uSX/1
 // `|\n$` matches new line and end of string
-func processComments(comments string) string {
+func prepareComments(comments string) string {
 	reqex := regexp.MustCompile(`(?m)^# ?|\n$`)
 	return reqex.ReplaceAllString(comments, "")
-}
-
-func extractShortFromComments(comments string) string {
-	reqex := regexp.MustCompile(`^.*`)
-	return reqex.FindString(comments)
 }

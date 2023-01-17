@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"log"
 	"main/utils"
@@ -13,9 +14,9 @@ import (
 func buildTaskCommand(task utils.DevScriptTask, devScriptPath string) *cobra.Command {
 	var cmd = &cobra.Command{
 		// IMPORTANT: never color Use! You will not be able to run the command otherwise.
-		Use:     task.Usage,
-		Short:   task.Short,
-		Long:    task.Long,
+		Use:     task.Name,
+		Short:   task.Title,
+		Long:    color.Bold.Text(task.Title) + "\n" + task.Description,
 		Args:    cobra.ArbitraryArgs,
 		GroupID: utils.GROUP_ID_TASKS,
 		// If this is true all flags will be passed to the command as arguments.
@@ -33,7 +34,7 @@ func buildTaskCommand(task utils.DevScriptTask, devScriptPath string) *cobra.Com
 			if argsAsString == "--help" || argsAsString == "-h" {
 				cmd.Help()
 			} else {
-				execDevScriptWithArguments(devScriptPath, append([]string{task.Usage}, args...))
+				execDevScriptWithArguments(devScriptPath, append([]string{task.Name}, args...))
 			}
 		},
 	}
