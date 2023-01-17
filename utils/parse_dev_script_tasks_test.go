@@ -46,31 +46,28 @@ func TestParseDevScriptTasks_IgnoreCommentedOutTasks(t *testing.T) {
 func TestParseDevScriptTasks_TaskCommentsShouldBeParsed(t *testing.T) {
 	expected := []DevScriptTask{
 		{
-			Name:  "one-line-comment-block",
-			Title: "one line comment block - 1",
-			// TODO: fix trailing \n
-			Description: "one line comment block - 1",
+			Name:        "one-line-comment-block",
+			Title:       "one line comment block - 1",
+			Description: "",
 		},
 		{
-			Name:  "multiline-comment-block",
-			Title: "multiline comment block - 1",
-			// TODO: fix trailing \n
-			Description: "multiline comment block - 1\nmultiline comment block - 2\nmultiline comment block - 3",
+			Name:        "multiline-comment-block",
+			Title:       "multiline comment block - 1",
+			Description: "multiline comment block - 2\nmultiline comment block - 3",
 		},
 		{
 			Name:  "empty-lines-in-comment-block",
 			Title: "multiline comment block with empty lines - 1",
-			// TODO: fix trailing \n
-			Description: "multiline comment block with empty lines - 1\n\nmultiline comment block with empty lines - 2\n\nmultiline comment block with empty lines - 3",
+			// TODO: remove trailing \n
+			Description: "\nmultiline comment block with empty lines - 2\n\nmultiline comment block with empty lines - 3",
 		},
 		{
 			Name:  "leading-spaces-or-none-in-comment-block",
 			Title: "leading space missing",
-			// TODO: fix trailing \n
 			// remove # and one space always if present
 			// keep \n but remove spaces if they are the only chars after #
 			// also keep empty lines
-			Description: "leading space missing\n  keep leading-spaces used for indents\n\n\n\ncomment block end",
+			Description: "  keep leading-spaces used for indents\n\n\n\ncomment block end",
 		},
 	}
 	actual := ParseDevScriptTasks("./fixtures/tasks_with_comments.sh")
