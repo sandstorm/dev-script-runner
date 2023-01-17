@@ -52,20 +52,51 @@ The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in 
 ### Writing tasks
 
 ```bash
-# Sometask to help with something
-#
-# The first line of the comment block will be used in the task overview.
-# If you want to provide more details just add more lines ;)
 function sometask() {
   echo "TODO: implement sometask()"
 }
 ```
-
 **Tasks starting with `_` are expected to be private and will be ignored**
 
 **You should not use UPPERCASE tasks in your `dev.sh`**
 
+### Passing arguments
+
+You can run a task providing additional arguments that will be passed to your dev.sh
+transparently. 
+
+The only exception are the `-h` and `--help` flags that are handled by the DevScriptRunner.
+You should not use them in your `dev.sh` script.
+
+```bash
+dev sometask arg1 arg2 agr3
+```
+
+```bash
+function sometask() {
+  echo "$@" # -> "arg1 arg2 agr3"
+  echo "$1" # -> "arg1"
+  echo "$2" # -> "arg2"
+  echo "$3" # -> "arg3"
+}
+```
+
+`$@` can be pretty useful for passing all arguments to other tasks in your `dev.sh`.
+
+`$@` should always be present at the end of our your `dev.sh` script.
+
 ### Documenting Tasks
+
+```bash
+# Short description in first line
+#
+# Some more comments giving a detailed description about your task.
+# Your description can span multiple lines. There MUST not be any
+# empty lines for the comments to be associated with your task.
+function sometask() {
+  echo "TODO: implement"
+}
+```
 
 This currently is WIP and will be improved in the future ;)
 
@@ -75,5 +106,7 @@ run `dev` for more information.
 
 ## TODOs
 
-* Testing
-* more features for documenting tasks -> e.g. support examples, params, ...
+* more testing
+  * dev script parsing
+  * e2e tests actually testing the CLI
+* more features for documenting tasks -> e.g. support usage, examples, params, ...
