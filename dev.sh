@@ -51,6 +51,22 @@ function setup() {
   ./dev_setup.sh
 }
 
+# running tests
+function run-test() {
+  pushd utils
+  go test
+  popd
+  _log_success "All Tests finished successfully ;)"
+}
+
+# releasing a new version
+function release() {
+  run-test
+  build
+  goreleaser release --rm-dist
+  _log_success "Release finished successfully ;)"
+}
+
 ####### Utilities #######
 
 _log_success() {
