@@ -54,7 +54,7 @@ function setup() {
 # running tests
 function run-test() {
   pushd utils
-  go test
+  go test "$@"
   popd
   _log_success "All Tests finished successfully ;)"
 }

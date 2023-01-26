@@ -1,5 +1,16 @@
 # Sandstorm Dev Script Runner
 
+Use a shell script to document recurring development tasks and run them from anywhere inside your projects
+folder structure using `dev some-task` while still being able to run them without this helper calling the 
+script directly `./dev.sh some-task`.
+
+## Features
+
+* run your development tasks from within a nested folder structure
+* easy initialization of your project
+* autocompletion
+* documentation of your tasks will be used to provide help
+
 ## Motivation
 
 In all of our projects we have recurring tasks that require us running multiple commands, e.g. to
@@ -31,8 +42,8 @@ This is how we ended up with the following API to run your tasks.
 `./dev.sh sometask` or `dev sometask`
 
 Some functionality will only be provided by the helper, e.g. running an init. 
-As we do not want to confuse this additional functionality with running a task, we use UPPERCASE 
-arguments prefixed with `DSR` for utils only provided by the `dev` command.
+As we do not want to confuse this additional functionality with running a task, 
+we use UPPERCASE arguments prefixed with `DSR` for utils only provided by the `dev` command.
 
 Example: `dev DSR_INIT` to create the files needed in your project.
 
@@ -58,15 +69,18 @@ function sometask() {
 ```
 **Tasks starting with `_` are expected to be private and will be ignored**
 
-**You should not use UPPERCASE tasks in your `dev.sh`**
+**You should not use UPPERCASE tasks in your `dev.sh`** as they might be used to provide
+utilities. e.g. `dev DSR_INIT` to init your folder with all the files needed by the 
+Dev Script Runner
 
 ### Passing arguments
 
-You can run a task providing additional arguments that will be passed to your dev.sh
+You can run a task providing additional arguments that will be passed to your `dev.sh`
 transparently. 
 
 The only exception are the `-h` and `--help` flags that are handled by the DevScriptRunner.
-You should not use them in your `dev.sh` script.
+If you implement them in your `dev.sh` script they will only work if you call your script
+directly. `./dev.sh --help` will run your own implementation.
 
 ```bash
 dev sometask arg1 arg2 agr3
@@ -91,22 +105,16 @@ function sometask() {
 # Short description in first line
 #
 # Some more comments giving a detailed description about your task.
-# Your description can span multiple lines. There MUST not be any
-# empty lines for the comments to be associated with your task.
+# Your description can span multiple lines. There MUST NOT be any empty lines 
+# between the comment block and your task.
 function sometask() {
   echo "TODO: implement"
 }
 ```
-
-This currently is WIP and will be improved in the future ;)
 
 ## Usage
 
 run `dev` for more information.
 
 ## TODOs
-
-* more testing
-  * dev script parsing
-  * e2e tests actually testing the CLI
-* more features for documenting tasks -> e.g. support usage, examples, params, ...
+* more features for documenting tasks -> e.g. support usage, examples, flags, params, ...
