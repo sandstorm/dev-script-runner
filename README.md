@@ -10,6 +10,7 @@ script directly `./dev.sh some-task`.
 * easy initialization of your project
 * autocompletion
 * documentation of your tasks will be used to provide help
+* structure your tasks in different files
 
 ## Motivation
 
@@ -111,6 +112,22 @@ function sometask() {
   echo "TODO: implement"
 }
 ```
+
+### Structuring tasks into different files
+
+```bash
+#!/bin/bash
+############################## DEV_SCRIPT_MARKER ##############################
+
+# You can structure your tasks into different files using `source`. We will also
+# parse these files. The order will be: 
+#   1. tasks of the dev.sh
+#   2. tasks of sourced files
+source ./dev_utilities.sh
+source ./dev_tasks_testing.sh
+source ./dev_tasks_release.sh
+```
+
 
 ## Usage
 

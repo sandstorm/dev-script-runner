@@ -73,3 +73,17 @@ func TestParseDevScriptTasks_TaskCommentsShouldBeParsed(t *testing.T) {
 	actual := ParseDevScriptTasks("./fixtures/tasks_with_comments.sh")
 	assert.Equal(t, expected, actual)
 }
+
+func TestParseDevScriptTasks_TasksFromImports(t *testing.T) {
+	expected := []DevScriptTask{
+		{Name: "task"},
+		{Name: "import1-task1"},
+		{Name: "import1-task2"},
+		{Name: "import2-task1"},
+		{Name: "import2-task2"},
+		{Name: "nested-import-task1"},
+		{Name: "nested-import-task2"},
+	}
+	actual := ParseDevScriptTasks("./fixtures/tasks_from_imports.sh")
+	assert.Equal(t, expected, actual)
+}

@@ -7,13 +7,29 @@
 # nested folder using `dev run some-task`.                                    #
 ###############################################################################
 
+source ./dev_utilities.sh
+source ./dev_tasks_testing.sh
+source ./dev_tasks_release.sh
+
 set -e
 
 ######### TASKS #########
 
+# install dev dependencies
+function setup() {
+  # As the setup typically is more complex we recommend using a separate
+  # file `dev_setup.sh`
+  ./dev_setup.sh
+}
+
+# build
+function build() {
+  go build main
+}
+
 # exposes ./main binary globally
 # we rename the original file and copy a fresh build to `/usr/local/bin/`
-function switch-dev-binary() {
+function switch-binary() {
     echo "-----------> creating build"
     build
     echo "-----------> replacing binary"
@@ -29,7 +45,7 @@ function switch-dev-binary() {
 #
 # we check if the dev binary was backed up and replace the current dev with
 # this backup ;)
-function restore-dev-binary() {
+function restore-binary() {
   if test -f "/usr/local/bin/dev_back"; then
       echo "/usr/local/bin/dev_back exists."
       echo "restoring /usr/local/bin/dev "
@@ -38,45 +54,6 @@ function restore-dev-binary() {
     else
       echo "no /usr/local/bin/dev_back found. Nothing to restore!"
   fi
-}
-# build
-function build() {
-  go build main
-}
-
-# install dev dependencies
-function setup() {
-  # As the setup typically is more complex we recommend using a separate
-  # file `dev_setup.sh`
-  ./dev_setup.sh
-}
-
-# running tests
-function run-test() {
-  pushd utils
-  go test "$@"
-  popd
-  _log_success "All Tests finished successfully ;)"
-}
-
-# releasing a new version
-function release() {
-  run-test
-  build
-  goreleaser release --rm-dist
-  _log_success "Release finished successfully ;)"
-}
-
-####### Utilities #######
-
-_log_success() {
-  printf "\033[0;32m${1}\033[0m\n"
-}
-_log_warning() {
-  printf "\033[1;33m%s\033[0m\n" "${1}"
-}
-_log_error() {
-  printf "\033[0;31m%s\033[0m\n" "${1}"
 }
 
 # THIS NEEDS TO BE LAST!!!
