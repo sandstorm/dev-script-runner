@@ -4,7 +4,20 @@ Use a shell script to document recurring development tasks and run them from any
 folder structure using `dev some-task` while still being able to run them without this helper calling the 
 script directly `./dev.sh some-task`.
 
-[[_TOC_]]
+
+<!-- TOC -->
+* [Features](#features)
+* [Motivation](#motivation)
+* [Setup](#setup)
+  * [Autocompletion](#autocompletion)
+  * [Initialization](#initialization)
+  * [Writing tasks](#writing-tasks)
+  * [Passing arguments](#passing-arguments)
+  * [Documenting Tasks](#documenting-tasks)
+  * [Structuring tasks into different files](#structuring-tasks-into-different-files)
+* [Usage](#usage)
+* [TODOs](#todos)
+<!-- TOC -->
 
 ## Features
 
@@ -149,5 +162,8 @@ source ./dev_tasks_release.sh
 
 run `dev` for more information.
 
-## TODOs
-* more features for documenting tasks -> e.g. support usage, examples, flags, params, ...
+## Roadmap
+
+* parse from comments: usage, examples, flags, params, ...
+* add ready made tasks or provide copy paste examples
+* CLI test
