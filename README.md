@@ -1,4 +1,4 @@
-# Sandstorm Dev Script Runner
+# Dev Script Runner
 
 Use a shell script to document recurring development tasks and run them from anywhere inside your projects
 folder structure using `dev some-task` while still being able to run them without this helper calling the 
@@ -6,17 +6,16 @@ script directly `./dev.sh some-task`.
 
 
 <!-- TOC -->
-* [Features](#features)
-* [Motivation](#motivation)
-* [Setup](#setup)
-  * [Autocompletion](#autocompletion)
-  * [Initialization](#initialization)
-  * [Writing tasks](#writing-tasks)
-  * [Passing arguments](#passing-arguments)
-  * [Documenting Tasks](#documenting-tasks)
-  * [Structuring tasks into different files](#structuring-tasks-into-different-files)
-* [Usage](#usage)
-* [TODOs](#todos)
+* [Dev Script Runner](#dev-script-runner)
+  * [Features](#features)
+  * [Motivation](#motivation)
+  * [Setup](#setup)
+    * [Writing tasks](#writing-tasks)
+    * [Passing arguments](#passing-arguments)
+    * [Documenting Tasks](#documenting-tasks)
+    * [Structuring tasks into different files](#structuring-tasks-into-different-files)
+  * [Usage](#usage)
+  * [Roadmap](#roadmap)
 <!-- TOC -->
 
 ## Features
