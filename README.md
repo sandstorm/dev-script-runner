@@ -4,6 +4,8 @@ Use a shell script to document recurring development tasks and run them from any
 folder structure using `dev some-task` while still being able to run them without this helper calling the 
 script directly `./dev.sh some-task`.
 
+[[_TOC_]]
+
 ## Features
 
 * run your development tasks from within a nested folder structure
@@ -54,7 +56,21 @@ run `brew install sandstorm/tap/dev-script-runner` to install
 
 run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
-run `dev completion [bash|zsh|fish|powershell] --help` and follow instructions on how to setup autocompletion
+### Autocompletion
+
+run `dev completion [bash|zsh|fish|powershell] --help` and follow instructions on how to set up autocompletion
+
+> For **MacOS on ARM** the zsh instructions will not work. You have to add the 
+> 
+> `$(brew --prefix)/share/zsh/site-functions` to your `FPATH` 
+> 
+> before calling `autoload -U compinit; compinit`
+> ```bash
+> FPATH=“$(brew --prefix)/share/zsh/site-functions:${FPATH}”
+> autoload -U compinit; compinit
+> ```
+
+### Initialization
 
 Go to your project root and run `dev DSR_INIT` to create a `dev.sh` and a `dev_setup.sh` with examples for different types of tasks.
 The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `dev sometask` calls `sometask`).
@@ -96,9 +112,9 @@ function sometask() {
 }
 ```
 
-`$@` can be pretty useful for passing all arguments to other tasks in your `dev.sh`.
+`$@` can be used for passing all arguments to other tasks in your `dev.sh`.
 
-`$@` should always be present at the end of our your `dev.sh` script.
+`$@` MUST always be present at the end of our your `dev.sh` script.
 
 ### Documenting Tasks
 
