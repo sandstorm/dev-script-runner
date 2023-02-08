@@ -60,7 +60,7 @@ Some functionality will only be provided by the helper, e.g. running an init.
 As we do not want to confuse this additional functionality with running a task, 
 we use UPPERCASE arguments prefixed with `DSR` for utils only provided by the `dev` command.
 
-Example: `dev DSR_INIT` to create the files needed in your project.
+EXAMPLE: `dev DSR_INIT` to create the files needed in your project.
 
 ## Setup
 
@@ -84,10 +84,11 @@ run `dev completion [bash|zsh|fish|powershell] --help` and follow instructions o
 
 **Initialization**
 
-Go to your project root and run `dev DSR_INIT` to create a `dev.sh` and a `dev_setup.sh` with examples for different types of tasks.
-The `$@` at the end of your `dev.sh` dispatches the script arguments to a function (so `dev sometask` calls `sometask`).
+In your project root run `dev DSR_INIT`
 
-The script is only picked up by the helper if `DEV_SCRIPT_MARKER` is present in the file. 
+This will create the files needed to start writing your own tasks. Run `dev` and you will see
+example tasks that have been created for you. You can now start editing your `dev.sh` ;)
+
 
 ### Writing tasks
 
