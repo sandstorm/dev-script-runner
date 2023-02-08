@@ -10,7 +10,7 @@ import (
 
 // Assets represents the embedded files.
 //
-//go:embed templates/dev.sh templates/dev_setup.sh
+//go:embed templates/dev.sh templates/dev_utilities.sh
 var Assets embed.FS
 
 func FileExists(path string) bool {

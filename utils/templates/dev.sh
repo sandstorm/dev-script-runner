@@ -8,24 +8,26 @@
 # https://github.com/sandstorm/Sandstorm.DevScriptRunner                      #
 ###############################################################################
 
+source ./dev_utilities.sh
+
 set -e
 
 ######### TASKS #########
 
 # Easy setup of the project
 function setup() {
-  # As the setup typically is more complex we recommend using a separate shell script
-  ./dev_setup.sh
+  _log_green "Setting up your project"
+  _log_yellow "TODO: implement more steps"
 }
 
 # Sometask to help with something
 #
 # The first line of the comment block will be used in the task overview.
 # If you want to provide more details just add more lines ;)
-function sometask() {
+function sometask {
   # Most task will only require some steps. We recommend implementing them here
-  _log_success "Some task"
-  _log_warning "TODO: implement more steps"
+  _log_green "Some task"
+  _log_yellow "TODO: implement more steps"
 }
 
 # Another task to help with something else
@@ -34,25 +36,15 @@ function sometask() {
 # If you want to provide more details just add more lines ;)
 function taskwitharguments() {
   # You can access arguments using $@ array. The task name will not be part of the array
-  _log_success "Task with arguments"
-  _log_warning "TODO: implement more steps"
-  _log_success "Arguments"
-  _log_success '  $0: '"$0"
-  _log_success '  $1: '"$1"
-  _log_success '  $2: '"$2"
+  _log_green "Task with arguments"
+  _log_yellow "TODO: implement more steps"
+  _log_green "Arguments"
+  _log_green '  $0: '"$0"
+  _log_green '  $1: '"$1"
+  _log_green '  $2: '"$2"
 }
 
-####### Utilities #######
-
-_log_success() {
-  printf "\033[0;32m%s\033[0m\n" "${1}"
-}
-_log_warning() {
-  printf "\033[1;33m%s\033[0m\n" "${1}"
-}
-_log_error() {
-  printf "\033[0;31m%s\033[0m\n" "${1}"
-}
+_log_green "---------------------------- RUNNING TASK: $1 ----------------------------"
 
 # THIS NEEDS TO BE LAST!!!
 # this will run your tasks

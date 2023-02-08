@@ -7,5 +7,5 @@ function run-test() {
   pushd utils
   go test "$@"
   popd
-  _log_success "All Tests finished successfully ;)"
+  _log_green "All Tests finished successfully ;)"
 }

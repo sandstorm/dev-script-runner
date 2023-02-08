@@ -7,5 +7,5 @@ function release() {
   run-test
   build
   goreleaser release --rm-dist
-  _log_success "Release finished successfully ;)"
+  _log_green "Release finished successfully ;)"
 }

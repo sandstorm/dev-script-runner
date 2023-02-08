@@ -89,12 +89,11 @@ In your project root run `dev DSR_INIT`
 This will create the files needed to start writing your own tasks. Run `dev` and you will see
 example tasks that have been created for you. You can now start editing your `dev.sh` ;)
 
-
 ### Writing tasks
 
 ```bash
-function sometask() {
-  echo "TODO: implement sometask()"
+function sometask {
+  echo "TODO: implement sometask"
 }
 ```
 **Tasks starting with `_` are expected to be private and will be ignored**
@@ -117,7 +116,7 @@ dev sometask arg1 arg2 agr3
 ```
 
 ```bash
-function sometask() {
+function sometask {
   echo "$@" # -> "arg1 arg2 agr3"
   echo "$1" # -> "arg1"
   echo "$2" # -> "arg2"
@@ -137,7 +136,7 @@ function sometask() {
 # Some more comments giving a detailed description about your task.
 # Your description can span multiple lines. There MUST NOT be any empty lines 
 # between the comment block and your task.
-function sometask() {
+function sometask {
   echo "TODO: implement"
 }
 ```
@@ -156,11 +155,6 @@ source ./dev_utilities.sh
 source ./dev_tasks_testing.sh
 source ./dev_tasks_release.sh
 ```
-
-
-## Usage
-
-run `dev` for more information.
 
 ## Roadmap
 

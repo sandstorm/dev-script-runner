@@ -43,7 +43,6 @@ func Execute(version, commit string) {
 	})
 	addDevScriptTasksAsCommands(RootCmd)
 	RootCmd.AddCommand(buildInitCommand())
-	RootCmd.AddCommand(buildTestTaskCommand())
 	// TODO: fix autocompletion
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)

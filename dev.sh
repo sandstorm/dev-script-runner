@@ -17,9 +17,8 @@ set -e
 
 # install dev dependencies
 function setup() {
-  # As the setup typically is more complex we recommend using a separate
-  # file `dev_setup.sh`
-  ./dev_setup.sh
+  brew install go
+  brew install goreleaser/tap/goreleaser
 }
 
 # build
@@ -55,6 +54,8 @@ function restore-binary() {
       echo "no /usr/local/bin/dev_back found. Nothing to restore!"
   fi
 }
+
+_log_green "------------------------- RUNNING TASK: $1 -------------------------"
 
 # THIS NEEDS TO BE LAST!!!
 # this will run your tasks
