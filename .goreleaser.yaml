@@ -7,12 +7,27 @@ builds:
   - id: "dev-script-runner"
     main: ./main.go
     binary: dev-script-runner
+    env:
+      - CGO_ENABLED=0
     goos:
+      - linux
       - darwin
+      - windows
+      - freebsd
     goarch:
+      - '386'
       - amd64
       - arm
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+      - goos: freebsd
+        goarch: arm
+      - goos: freebsd
+        goarch: arm64
 archives:
   - replacements:
       darwin: Darwin
