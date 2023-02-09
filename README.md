@@ -72,15 +72,22 @@ run `brew upgrade sandstorm/tap/dev-script-runner` to upgrade
 
 run `dev completion [bash|zsh|fish|powershell] --help` and follow instructions on how to set up autocompletion
 
-> For **MacOS on ARM** the zsh instructions will not work. You have to add the 
-> 
-> `$(brew --prefix)/share/zsh/site-functions` to your `FPATH` 
-> 
-> before calling `autoload -U compinit; compinit`
+> For **MacOS on ARM** the zsh instructions will not work. You have to change your `FPATH` first.
+>
 > ```bash
-> FPATH=“$(brew --prefix)/share/zsh/site-functions:${FPATH}”
+> # .zshrc
+> 
+> FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+> # compinit MUST be called afterwards!
 > autoload -U compinit; compinit
 > ```
+> Now run 
+> 
+> ```
+> dev completion zsh > $(brew --prefix)/share/zsh/site-functions/_dev
+> ```
+> 
+> and restart your terminal.
 
 **Initialization**
 
