@@ -14,7 +14,7 @@ import (
 var RootCmd = &cobra.Command{
 	Use: "dev",
 	Long: `
-DevScriptRunner is a helper to run task from a dev.sh file
+Dev Script Runner is a helper to run task from a dev.sh file
 from within a nested folder structure also providing autocompletion
 and other nifty feature ;)
 `,
