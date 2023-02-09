@@ -1,22 +1,31 @@
-# Dev Script Runner
+<h1 align="center">Dev Script Runner</h1>
+<p align="center">Write and document recurring development tasks inside a shell script and run them from anywhere inside your projects folder structure.</p>
 
-Use a shell script to document recurring development tasks and run them from anywhere inside your projects
-folder structure using `dev some-task` while still being able to run them without this helper calling the 
-script directly `./dev.sh some-task`.
+<p align="center">
 
+<a style="text-decoration: none" href="https://github.com/sandstorm/dev-script-runner/releases">
+<img src="https://img.shields.io/github/v/release/sandstorm/dev-script-runner?style=flat-square" alt="Latest Release">
+</a>
 
-<!-- TOC -->
-* [Dev Script Runner](#dev-script-runner)
-  * [Features](#features)
-  * [Motivation](#motivation)
-  * [Setup](#setup)
-    * [Writing tasks](#writing-tasks)
-    * [Passing arguments](#passing-arguments)
-    * [Documenting Tasks](#documenting-tasks)
-    * [Structuring tasks into different files](#structuring-tasks-into-different-files)
-  * [Usage](#usage)
-  * [Roadmap](#roadmap)
-<!-- TOC -->
+<a style="text-decoration: none" href="https://opensource.org/licenses/MIT">
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="License: MIT">
+</a>
+
+</p>
+
+----
+
+* [Features](#features)
+* [Motivation](#motivation)
+* [Setup](#setup)
+  * [Writing tasks](#writing-tasks)
+  * [Passing arguments](#passing-arguments)
+  * [Documenting Tasks](#documenting-tasks)
+  * [Structuring tasks into different files](#structuring-tasks-into-different-files)
+* [Usage](#usage)
+* [Roadmap](#roadmap)
+
+----
 
 ## Features
 
@@ -28,39 +37,31 @@ script directly `./dev.sh some-task`.
 
 ## Motivation
 
-In all of our projects we have recurring tasks that require us running multiple commands, e.g. to
+We have recurring tasks in all our projects. Often they require multiple shell commands, e.g. for ...
 
-* set up the project initially
-* start and stop containers
-* enter containers
-* inspect logs
-* run test
+* setting up a project
+* starting and stopping containers
+* running test
 * ...
 
-These commands need to be documented somewhere. So why not have them documented in a shell script.
-This way you can run them without the need of copy and pasting them.
+These tasks need to be documented, so why not have them documented in a shell script?
+This way you can run them without the need of copy and pasting them from a Readme.
 
-We tried Makefiles, but they are complicated to use because of their syntax. It is also not possible
-to copy commands from the Makefile and run them in the shell.
+We tried Makefiles, but they are complicated to use. It is also not possible to copy commands 
+from the Makefile and run them in the shell.
 
-**Always changing back to the directory containing the dev script to run a task is annoying.
-This helper allows running tasks from inside a nested folder structure ;)**
+Always changing back to the root of your project to run a script can be annoying. This is why we want 
+to run tasks from inside a nested folder structure.
 
-On the way up, the first `dev.sh` marked with a comment containing `DEV_SCRIPT_MARKER` is used to
-execute a task.
+Running tasks using the helper should be the same as running tasks directly using the script.
 
-We want the API of the helper to be the same as running the `dev.sh` script directly.
-This is why we decided to NOT introduce a `run` argument for this helper.
+This is how we ended up with the following API.
 
-This is how we ended up with the following API to run your tasks.
+`./dev.sh sometask` vs. `dev sometask`
 
-`./dev.sh sometask` or `dev sometask`
+Functionality only provided by the helper will be uppercase and prefixed with `DSR`.
 
-Some functionality will only be provided by the helper, e.g. running an init. 
-As we do not want to confuse this additional functionality with running a task, 
-we use UPPERCASE arguments prefixed with `DSR` for utils only provided by the `dev` command.
-
-EXAMPLE: `dev DSR_INIT` to create the files needed in your project.
+Example: `dev DSR_INIT` to create the files needed in your project.
 
 ## Setup
 
