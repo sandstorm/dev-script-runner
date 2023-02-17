@@ -29,9 +29,9 @@ function build() {
 # exposes ./main binary globally
 # we rename the original file and copy a fresh build to `/usr/local/bin/`
 function switch-binary() {
-    echo "-----------> creating build"
+    echo "----------> creating build"
     build
-    echo "-----------> replacing binary"
+    echo "----------> replacing binary"
     if test -f "/usr/local/bin/dev_back"; then
       rm -f /usr/local/bin/dev || true
     else
