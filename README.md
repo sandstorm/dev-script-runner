@@ -138,6 +138,10 @@ function sometask {
 
 ### Documenting Tasks
 
+We will parse the comment block directly followed by your task, to extract a short description
+displayed in the list of tasks and the autocompletion. We will also extract a long description that is
+displayed when running `dev sometask --help`
+
 ```bash
 # Short description in first line
 #
